@@ -9,7 +9,8 @@ class App extends Component {
   state = {
     persons : [
       {name : 'state max', age: '23'}
-    ]
+    ],
+    showPerson : false
   }
   
   // click event handler for the button below 
@@ -39,7 +40,11 @@ class App extends Component {
         {name: event.target.value, age: '23'}
       ]
     });
+  }
 
+  conditionalToggleIt = () => {
+    const currentStat = this.state.showPerson;
+    this.setState({showPerson: ! currentStat});
   }
 
   render() {
@@ -59,11 +64,22 @@ class App extends Component {
           this.clickItHandler("old name")}
           >Click it</button>
 
-          <Person name={this.state.persons[0].name} 
-          age={this.state.persons[0].age} 
-          click={this.clickItHandler.bind(this, 'yeah new name')}
-          nameChange={this.nameChangeHandler}/>
-          <Person name="Manu" age="23"> Hobbies: Race </Person>
+          <button style={style} onClick={
+          this.conditionalToggleIt}
+          >Toggle It</button>
+
+          { 
+            this.state.showPerson === true ?
+            <div>
+              <Person name={this.state.persons[0].name} 
+              age={this.state.persons[0].age} 
+              click={this.clickItHandler.bind(this, 'yeah new name')}
+              nameChange={this.nameChangeHandler}/>
+              <Person name="Manu" age="23"> Hobbies: Race </Person>
+            </div>
+          : null
+          }
+          
       </div>
     ); 
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 
