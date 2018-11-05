@@ -56,6 +56,22 @@ class App extends Component {
       padding: '8px',
       cursor: 'pointer'
     }
+
+
+    let persons = null;
+
+    if (this.state.showPerson === true){
+      persons = (
+        <div>
+          <Person name={this.state.persons[0].name} 
+          age={this.state.persons[0].age} 
+          click={this.clickItHandler.bind(this, 'yeah new name')}
+          nameChange={this.nameChangeHandler}/>
+          <Person name="Manu" age="23"> Hobbies: Race </Person>
+        </div>
+      );
+    }
+
    return (
       <div className="App">
           <h1>Yeah Got it</h1>
@@ -69,15 +85,7 @@ class App extends Component {
           >Toggle It</button>
 
           { 
-            this.state.showPerson === true ?
-            <div>
-              <Person name={this.state.persons[0].name} 
-              age={this.state.persons[0].age} 
-              click={this.clickItHandler.bind(this, 'yeah new name')}
-              nameChange={this.nameChangeHandler}/>
-              <Person name="Manu" age="23"> Hobbies: Race </Person>
-            </div>
-          : null
+            persons
           }
           
       </div>
