@@ -8,7 +8,8 @@ class App extends Component {
   // and extending from component.
   state = {
     persons : [
-      {name : 'state max', age: '23'}
+      {id:"some", name : 'state max', age: '23'},
+      {id:"new", name : 'state manu', age: '25'}
     ],
     showPerson : false
   }
@@ -17,28 +18,36 @@ class App extends Component {
   clickItHandler = (newName) => {
     console.log(newName);
     // this.state.persons[0].name = "Changed it"; //BAD IDEA to change state
+
+    const newPersons = [...this.state.persons];
+    newPersons[0].name = "updated";
     this.setState({
-      persons: [
-        {name: newName, age: '23'}
-      ]
+      persons: newPersons
     });
 
     // verify that react does listen for changes to state or props
     setTimeout(() => {
+      const newPersons = [...this.state.persons];
+      newPersons[0].name = "time out it";
       this.setState({
-        persons: [
-          {name: 'time out changed it again', age: '23'}
-        ]
+        persons: newPersons
       });
     }, 2000);
   }
 
 
-  nameChangeHandler = (event) => {
+  nameChangeHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex((p) => {return p.id === id});
+    const person = this.state.persons[personIndex];
+    const personClone = {
+      ...person
+    };
+    personClone.name = event.target.value;
+    const personsArr = [...this.state.persons];
+    personsArr[personIndex] = personClone;
+
     this.setState({
-      persons: [
-        {name: event.target.value, age: '23'}
-      ]
+      persons: personsArr
     });
   }
 
@@ -63,11 +72,15 @@ class App extends Component {
     if (this.state.showPerson === true){
       persons = (
         <div>
-          <Person name={this.state.persons[0].name} 
-          age={this.state.persons[0].age} 
-          click={this.clickItHandler.bind(this, 'yeah new name')}
-          nameChange={this.nameChangeHandler}/>
-          <Person name="Manu" age="23"> Hobbies: Race </Person>
+          {
+            this.state.persons.map((person, index) => {
+              return <Person name={person.name} 
+                      age={person.age} 
+                      click={this.clickItHandler.bind(this, 'yeah new name')}
+                      nameChange={(event) => this.nameChangeHandler(event, person.id)}
+                      key = {person.id} />
+            })
+          }
         </div>
       );
     }
