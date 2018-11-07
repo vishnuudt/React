@@ -66,6 +66,9 @@ class App extends Component {
       cursor: 'pointer'
     }
 
+    const style1 = {
+      ...style
+    };
 
     let persons = null;
 
@@ -83,6 +86,7 @@ class App extends Component {
           }
         </div>
       );
+      style.backgroundColor = 'red';
     }
 
    return (
@@ -93,7 +97,7 @@ class App extends Component {
           this.clickItHandler("old name")}
           >Click it</button>
 
-          <button style={style} onClick={
+          <button style={style1} onClick={
           this.conditionalToggleIt}
           >Toggle It</button>
 
