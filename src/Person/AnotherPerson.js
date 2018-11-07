@@ -2,14 +2,18 @@ import React from 'react';
 import ErrorBoundary from '../Errors/ErrorBoundary'
 
 const AnotherPerson = (props) => {
-    const rnd = Math.random();
+    
    return (<ErrorBoundary>
-                {
-                    (rnd > 0.7) ?
-                    JSON.parse(1)    
-                    : null
-                }
+                <InnerPerson></InnerPerson>
             </ErrorBoundary>);
+};
+
+const InnerPerson = (props) => {
+    const rnd = Math.random();
+    if (rnd > 0.5){
+        throw new Error("Simulate Error");
+    }
+    return (<h1>Item Inner Person</h1>);
 }
 
 export default AnotherPerson;
