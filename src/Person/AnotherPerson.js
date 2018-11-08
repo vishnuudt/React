@@ -10,7 +10,7 @@ const AnotherPerson = (props) => {
 
 const InnerPerson = (props) => {
     const rnd = Math.random();
-    if (rnd > 0.5){
+    if (rnd > 0.9){
         throw new Error("Simulate Error");
     }
     return (<h1>Item Inner Person</h1>);

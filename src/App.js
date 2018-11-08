@@ -3,17 +3,35 @@ import './App.css';
 import Person from './Person/Person';
 
 class App extends Component {
-  // state is special, cannot be used in functional style of 
-  // writing components i.e. without classes
-  // and extending from component.
-  state = {
-    persons : [
-      {id:"some", name : 'state max', age: '23'},
-      {id:"new", name : 'state manu', age: '25'}
-    ],
-    showPerson : false
-  }
   
+  constructor(props){
+    super(props);
+    console.log("Creation path - constructor - setup state - no side effects");
+    // state is special, cannot be used in functional style of 
+    // writing components i.e. without classes
+    // and extending from component.
+    this.state = {
+      persons : [
+        {id:"some", name : 'state max', age: '23'},
+        {id:"new", name : 'state manu', age: '25'}
+      ],
+      showPerson : false
+    }
+  }
+
+  componentWillMount(){
+    console.log("Creation path - componentWillMount - update state - no side effects");
+    console.log("Creation path - componentWillMount - after this render is called - children are rendered");
+
+  }
+
+  componentDidMount(){
+    console.log("Creation path - componentDidMount- cause side effects - dont update state");
+    console.log("Creation path - componentDidMount - can trigger rerendering");
+    console.log("Creation path - componentDidMount - called after rendering all children");
+  }
+
+
   // click event handler for the button below 
   clickItHandler = (newName) => {
     console.log(newName);
@@ -58,6 +76,7 @@ class App extends Component {
 
   render() {
 
+    console.log("Creation path - render- does not update DOM directly but knows what to do");
     const style = {
       backgroundColor : "orange",
       font : 'inherit',
