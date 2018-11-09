@@ -17,8 +17,12 @@ class App extends Component {
       ],
       showPerson : false
     }
+
+    this.newInputElement = React.createRef();
   }
 
+  // These methods are not reacting to dom events so they are not arrow function
+  // ONLY dom event based methods have the "this" problem so they will be arrow functions.
   componentWillMount(){
     console.log("Creation path - componentWillMount - update state - no side effects");
     console.log("Creation path - componentWillMount - after this render is called - children are rendered");
@@ -29,8 +33,28 @@ class App extends Component {
     console.log("Creation path - componentDidMount- cause side effects - dont update state");
     console.log("Creation path - componentDidMount - can trigger rerendering");
     console.log("Creation path - componentDidMount - called after rendering all children");
+    this.newInputElement.current.focus();
   }
 
+
+  componentWillReceiveProps(nextProps){
+    console.log("Update path - componentWillReceiveProps- update state - no side effects");
+  }
+
+  shouldComponentUpdate(nextProps, nextState){
+    console.log("Update path - shouldComponentUpdate- update state - no side effects", 
+    nextProps, nextState);
+    return true; // if false stops the rendering of the updated state
+  }
+
+  componentWillUpdate(nextProps, nextState){
+    console.log("Update path - componentWillUpdate- update state - no side effects", 
+    nextProps, nextState);
+  }
+
+  componentDidUpdate(){
+    console.log("Update path - componentDidUpdate- do not update state - can cause side effects");
+  }
 
   // click event handler for the button below 
   clickItHandler = (newName) => {
@@ -74,9 +98,13 @@ class App extends Component {
     this.setState({showPerson: ! currentStat});
   }
 
+  onChange = (event) => {
+    console.log("onchange called in App");
+  }
+
   render() {
 
-    console.log("Creation path - render- does not update DOM directly but knows what to do");
+    console.log("prepare JSX during render- does not update DOM directly but knows what to do");
     const style = {
       backgroundColor : "orange",
       font : 'inherit',
@@ -112,6 +140,10 @@ class App extends Component {
       <div className="App">
           <h1>Yeah Got it</h1>
           
+          <input type="text" ref={this.newInputElement} 
+          onChange={this.onChange} value="Focus me!!">
+          </input>
+
           <button style={style} onClick={() => 
           this.clickItHandler("old name")}
           >Click it</button>
